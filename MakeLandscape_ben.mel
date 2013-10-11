@@ -1,0 +1,105 @@
+polyPlane -w 3000 -h 3000 -sx 60 -sy 60 -ax 0 1 0 -cuv 2 -ch 1;
+
+// Result: pPlane1 polyPlane1 //
+
+select -r pPlane1 ;
+
+rename "pPlane_Landscape" "pPlane_Landscape_1";
+
+// Result: pPlane_Landscape_1 //
+
+setAttr "softMod1.falloffRadius" 300;
+
+setAttr "softMod1.falloffRadius" 700;
+
+move -r -os -wd 0 450.453272 0 ;
+
+select -r pPlane_Landscape_1 ;
+
+setAttr "softMod2.falloffRadius" 400;
+
+move -r -os -wd 0 318.34067 0 ;
+
+select -r pPlane_Landscape_1 ;
+
+setAttr "softMod3.falloffRadius" 600;
+
+move -r -os -wd 0 352.503704 0 ;
+
+select -r pPlane_Landscape_1 ;
+
+setAttr "softMod4.falloffRadius" 900;
+
+move -r -os -wd 0 357.330313 0 ;
+
+select -r pPlane_Landscape_1 ;
+
+setAttr "softMod5.falloffRadius" 400;
+
+move -r -os -wd 0 520.007579 0 ;
+
+select -r pPlane_Landscape_1 ;
+
+setAttr "softMod6.falloffRadius" 600;
+
+move -r -os -wd 0 254.229966 0 ;
+
+select -r pPlane_Landscape_1 ;
+
+setAttr "softMod7.falloffRadius" 600;
+
+move -r -os -wd 0 542.713885 0 ;
+
+select -r pPlane_Landscape_1 ;
+
+setAttr "softMod8.falloffRadius" 600;
+
+move -r -os -wd 0 509.057177 0 ;
+
+select -r pPlane_Landscape_1 ;
+
+setAttr "softMod9.falloffRadius" 800;
+
+move -r -os -wd 0 395.823754 0 ;
+
+select -cl ;
+
+select -r pPlane_Landscape_1 ;
+
+select -r pPlane_Landscape_1 ;
+
+move -r -os -wd 0 577.30929 0 ;
+
+// Undo: move -r -os -wd 0 577.30929 0 //
+
+setAttr "softMod10.falloffRadius" 200;
+
+move -r -os -wd 0 316.614565 0 ;
+
+// Undo: move -r -os -wd 0 316.614565 0 //
+
+setAttr "softMod10.falloffRadius" 600;
+
+scale -ws -r 1 1.47262 1 ;
+
+scale -ws -r 1 1.486336 1 ;
+
+move -r -os -wd 0 417.61242 0 ;
+
+scale -ws -r 1 1.487782 1 ;
+
+move -r -os -wd 0 261.63232 0 ;
+
+select -r pPlane_Landscape_1 ;
+
+setAttr "softMod11.falloffRadius" 1200;
+
+scale -ws -r 1 1.396789 1 ;
+
+scale -ws -r 1 1.097874 1 ;
+
+move -r -os -wd 0 679.124202 0 ;
+
+// Undo: move -r -os -wd 0 679.124202 0 //
+
+move -r -os -wd 0 172.131663 0 ;

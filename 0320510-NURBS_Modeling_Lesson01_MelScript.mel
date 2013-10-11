@@ -1,0 +1,97 @@
+////////////////////////////
+
+proc RevolvingCurveProcedure () {
+
+	select -cl;
+
+	curve -d 3 -p 0.0415169 -0.0830337 0 -p 3.155282 0.830337 0 -p 5.023541 3.404383 0 -p 5.770844 4.276237 0 -p 5.646294 2.283428 0 -p 4.732923 0.166067 0 -p 1.99281 -2.200394 0 -p 2.366461 -5.895395 0 -p 4.525338 -7.306968 0 -p 4.525338 -7.306968 0 -p 4.525338 -7.306968 0 -p 1.868259 -7.514553 0 -p 0.0415169 -7.473036 0 -k 0 -k 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 10 -k 10 ;
+	select -r curve1 ;
+	
+	revolve  -ch 1 -po 0 -rn 0 -ssw 0 -esw 360 -ut 0 -tol 0.01 -degree 3 -s 8 -ulp 1 -ax 0 1 0 "curve1";
+	// Result: revolvedSurface1 revolve1 //
+	rename "revolvedSurface1" "Eggholder";
+	// Result: Eggholder //
+	
+	HighQualityDisplay;
+	setDisplaySmoothness 3;
+	displaySmoothness -divisionsU 3 -divisionsV 3 -pointsWire 16 -pointsShaded 4 -polygonObject 3;
+	subdivDisplaySmoothness -smoothness 3;
+	
+	// Edit a surface with construction history
+	select -r curve1 ;
+	
+	select -r Eggholder ;
+	createDisplayLayer -name "EggholderRevolved" -number 1 -nr;
+	// Result: EggholderRevolved // 
+	setAttr EggholderRevolved.visibility 1; setAttr EggholderRevolved.displayType 2; setAttr EggholderRevolved.color 0;
+	
+	select -r curve1 ;
+	createDisplayLayer -name "layer1" -number 1 -nr;
+	// Result: layer1 // 
+	setAttr layer1.visibility 1; setAttr layer1.displayType 0; setAttr layer1.color 0; rename layer1 EggholderCurve;
+	// Result: EggholderCurve //
+	
+	select -r curve1.cv[6] ;
+move -r -1.764521 0 0 ;
+select -r curve1.cv[3] ;
+move -r 0 5.440607 0 ;
+	
+	
+	select -cl;
+}
+
+
+
+////////////////////////////
+
+proc SphereSculptingProcedure () {
+
+	select -cl;
+
+sphere -p 0 0 0 -ax 0 1 0 -ssw 0 -esw 360 -r 6 -d 3 -ut 0 -tol 0.01 -s 30 -nsp 30 -ch 1;objectMoveCommand;
+rename "nurbsSphere1" "Egghead";
+// Result: Egghead // 
+setAttr "Egghead.rotateZ" 90;
+setAttr "Egghead.scaleX" 1.3;
+move -r 0 8.033866 0 ;
+
+
+DisplayShaded;
+{
+    string $currentPanel = `getPanel -underPointer`;
+    if ("" == $currentPanel) {
+        $currentPanel = `getPanel -withFocus`;
+    }
+    if ("" != $currentPanel) {
+        string $panelType = `getPanel -typeOf $currentPanel`;
+        if ($panelType ==  "modelPanel") {
+            modelEditor -edit -displayAppearance "smoothShaded" -displayTextures off 
+                -displayLights "default" $currentPanel;
+        } else if (`isTrue "MayaCreatorExists"` && `scriptedPanel -exists $currentPanel` 
+            && `scriptedPanel -query -type $currentPanel` == "dynPaintScriptedPanelType") {
+            dynPaintEditor -edit -displayTextures 0 -displayAppearance "smoothShaded"
+                -displayLights "default" $gDynPaintEditorName;
+        } else if ($panelType ==  "scriptedPanel") {
+ 			  string $cmd = "modelEditor -edit -displayAppearance \"smoothShaded\" -displayTextures off -displayLights \"default\" "; 
+			  scriptedPanelRunTimeCmd( $cmd, $currentPanel ); 
+        }
+    }
+};
+updateModelPanelBar MayaWindow|formLayout1|viewPanes|modelPanel4|modelPanel4|modelPanel4;
+
+shadingNode -asShader blinn;
+// Result: blinn1 // 
+sets -renderable true -noSurfaceShader true -empty -name blinn1SG;
+// Result: blinn1SG // 
+connectAttr -f blinn1.outColor blinn1SG.surfaceShader;
+// Result: Connected blinn1.outColor to blinn1SG.surfaceShader. // 
+assignCreatedShader "blinn" "" blinn1 "Egghead";
+sets -e -forceElement blinn1SG;
+// Result: blinn1SG // 
+// Created shader blinn and assigned to the selected objects. //
+setAttr "blinn1.color" -type double3 0.743587 0.743587 0.743587 ;
+setAttr "blinn1.eccentricity" 0;
+
+	
+	select -cl;
+}
